@@ -7,24 +7,22 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//User data
 type User struct {
 	ID        ID
+	Name      string
 	Email     string
 	Password  string
-	FirstName string
-	LastName  string
+	Token     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
 //NewUser create a new user
-func NewUser(email, password, firstName, lastName string) (*User, error) {
+func NewUser(email, password, name string) (*User, error) {
 	u := &User{
 		ID:        NewID(),
 		Email:     email,
-		FirstName: firstName,
-		LastName:  lastName,
+		Name:      name,
 		CreatedAt: time.Now(),
 	}
 	pwd, err := generatePassword(password)
@@ -39,9 +37,9 @@ func NewUser(email, password, firstName, lastName string) (*User, error) {
 	return u, nil
 }
 
-//Validate validate data
+//Validate  data
 func (u *User) Validate() error {
-	if u.Email == "" || u.FirstName == "" || u.LastName == "" || u.Password == "" {
+	if u.Email == "" || u.Name == "" || u.Password == "" {
 		return ErrInvalidEntity
 	}
 
@@ -66,5 +64,5 @@ func generatePassword(raw string) (string, error) {
 }
 
 func (user User) String() string {
-	return fmt.Sprintf("%s | %s | %s | %s | %s | %s", user.ID.String(), user.FirstName, user.LastName, user.Email, user.CreatedAt, user.UpdatedAt)
+	return fmt.Sprintf("%s | %s | %s | %s | %s", user.ID.String(), user.Name, user.Email, user.CreatedAt, user.UpdatedAt)
 }

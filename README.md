@@ -1,8 +1,9 @@
 # Clean Architecture in Go
 
-[![Build Status](https://travis-ci.org/eminetto/clean-architecture-go-v2.svg?branch=master)](https://travis-ci.org/eminetto/clean-architecture-go-v2)
-
-[Post: Clean Architecture, 2 years later](https://eltonminetto.dev/en/post/2020-07-06-clean-architecture-2years-later/)
+This project is a starting point for a Flutter application.
+- Using `Golang` language and `MongoDB` database.
+- Implement CLEAN architecture.
+- Simple authentication and jwt validation.
 
 ## Build
 
@@ -14,35 +15,51 @@ NOTE: Replace `dev` to `staging` or `production` if you want to build/run other 
 
 ## API requests 
 
-### Add user
-
+### Register
 ```
-curl --location --request POST 'http://localhost:8080/v1/user' \
+curl --location --request POST 'http://localhost:8080/api/auth/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
+    "name" : "name",
     "email" : "email@gmail.com",
-    "password" : "123456",
-    "first_name" : "name1",
-    "last_name" : "name2"
+    "password" : "123456"
 }'
 ```
-### Return a user
+
+### Login
+```
+curl --location --request POST 'http://localhost:8080/api/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{ 
+    "email" : "email123@gmail.com",
+    "password" : "123456"
+}'
+```
+
+### Get Profile
 
 ```
-curl --location --request GET 'http://localhost:8080/v1/user/c83277c5-2568-497c-9757-37df102bc29c'
+curl --location --request GET 'http://localhost:8080/api/user/profile' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZmYwNGViMTYtMjE3OC00MDU5LWFjZWYtNDA4Mjc4ZWIyOWUxIiwiZXhwIjoxNjY0NDYyMDU0LCJpYXQiOjE2NjQzNzU2NTQsImlzcyI6InR1YW5od2luZyJ9.P8hoRDx-I2xK86Lpa7b8ud_-qQ1a_58Ne6pHTqHGq9E'
 ```
 
-### Show user with name
-
+### Insert Book
 ```
-curl --location --request GET 'http://localhost:8080/v1/user?name=name1'
+curl --location --request POST 'http://localhost:8080/api/book/' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZmYwNGViMTYtMjE3OC00MDU5LWFjZWYtNDA4Mjc4ZWIyOWUxIiwiZXhwIjoxNjY0NDYyMDU0LCJpYXQiOjE2NjQzNzU2NTQsImlzcyI6InR1YW5od2luZyJ9.P8hoRDx-I2xK86Lpa7b8ud_-qQ1a_58Ne6pHTqHGq9E' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title" : "title temporary",
+    "description" : "lollsdasd"
+}'
 ```
 
-
-## CMD 
-
-### Search for users
-
+### Get Book
 ```
-./bin/search name1
-```
+curl --location --request POST 'http://localhost:8080/api/book/' \
+--header 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZmYwNGViMTYtMjE3OC00MDU5LWFjZWYtNDA4Mjc4ZWIyOWUxIiwiZXhwIjoxNjY0NDYyMDU0LCJpYXQiOjE2NjQzNzU2NTQsImlzcyI6InR1YW5od2luZyJ9.P8hoRDx-I2xK86Lpa7b8ud_-qQ1a_58Ne6pHTqHGq9E' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "title" : "title temporary",
+    "description" : "description"
+}'
