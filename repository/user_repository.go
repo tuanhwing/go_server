@@ -57,7 +57,7 @@ func getUser(id entity.ID, db *mongo.Client) (*entity.User, error) {
 func (r *UserRepository) Update(e *entity.User) error {
 	collection := r.db.Database(environment.DB_NAME).Collection("users")
 	filter := bson.D{{Key: "id", Value: e.ID}}
-	update := bson.D{{"$set", bson.D{{Key: "email", Value: e.Email}}}}
+	update := bson.D{{"$set", bson.D{{Key: "name", Value: e.Name}}}}
 
 	err := collection.FindOneAndUpdate(context.Background(), filter, update).Decode(&e)
 	if err != nil {
@@ -131,6 +131,7 @@ func (r *UserRepository) IsDuplicateEmail(email string) bool {
 	return false
 }
 
+//Find by email
 func (r *UserRepository) FindByEmail(email string) *entity.User {
 	collection := r.db.Database(environment.DB_NAME).Collection("users")
 	filter := bson.D{{Key: "email", Value: email}}
@@ -141,4 +142,51 @@ func (r *UserRepository) FindByEmail(email string) *entity.User {
 		return &user
 	}
 	return nil
+}
+
+//Find by phone number
+func (r *UserRepository) FindByPhoneNumber(e *entity.PhoneNumber) *entity.User {
+	collection := r.db.Database(environment.DB_NAME).Collection("users")
+	filter := bson.D{{Key: "phone.dialcode", Value: e.DialCode}, {Key: "phone.phonenumber", Value: e.PhoneNumber}}
+
+	var user entity.User
+	err := collection.FindOne(context.Background(), filter).Decode(&user)
+	if err == nil {
+		return &user
+	}
+	return nil
+}
+
+//Find verification by id
+func (r *UserRepository) FindVerificationByID(id *entity.ID) *entity.PhoneVerification {
+	collection := r.db.Database(environment.DB_NAME).Collection("phone_verification")
+	filter := bson.D{{Key: "id", Value: id}}
+
+	var phone entity.PhoneVerification
+	err := collection.FindOne(context.Background(), filter).Decode(&phone)
+	if err == nil {
+		return &phone
+	}
+	return nil
+}
+
+//Save verification id
+func (r *UserRepository) SaveVerificationID(p *entity.PhoneVerification) (entity.ID, error) {
+	collection := r.db.Database(environment.DB_NAME).Collection("phone_verification")
+	_, err := collection.InsertOne(context.Background(), p)
+
+	if err != nil {
+		log.Fatal(err)
+		return p.ID, err
+	}
+
+	return p.ID, nil
+}
+
+//Save verification id
+func (r *UserRepository) DeleleVerificationID(id *entity.ID) {
+	collection := r.db.Database(environment.DB_NAME).Collection("phone_verification")
+	filter := bson.D{{Key: "id", Value: id}}
+
+	collection.FindOneAndDelete(context.Background(), filter)
 }

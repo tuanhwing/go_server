@@ -5,6 +5,6 @@ import "goter.com.vn/server/entity"
 //User data
 type User struct {
 	ID    entity.ID `json:"id"`
-	Email string    `json:"email"`
+	Phone Phone     `json:"phone"`
 	Name  string    `json:"name"`
 }

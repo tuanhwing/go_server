@@ -1,0 +1,20 @@
+{
+    "en": {
+      "failed_to_process_request": "Failed to process request",
+      "something_went_wrong" : "Something went wrong",
+      "phone_number_already_exists" : "Phone number is exists",
+      "phone_number_does_not_exists" : "Phone number doesn't exists",
+      "token_invalid_or_expired" : "Token invalid or expired",
+      "id_invalid" : "ID invalid",
+      "successful" : "Successful"
+    },
+    "vi": {
+      "failed_to_process_request": "Lỗi xử lý được yêu cầu",
+      "something_went_wrong": "Có lỗi xảy ra",
+      "phone_number_already_exists" : "Số điện thoại đã tồn tại",
+      "phone_number_does_not_exists" : "Số điện thoại không tồn tại",
+      "token_invalid_or_expired" : "Token không hợp lệ hoặc hết hạn",
+      "id_invalid" : "ID không hợp lệ",
+      "successful" : "Thành công"
+    }
+  }
